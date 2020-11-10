@@ -95,7 +95,7 @@ class View(tk.Tk):
 
     def change_root(self):
         base_line = 100
-        print(len(self.company_res))
+        # print(len(self.company_res))
         for i in range(len(self.company_res)):
             res = get_data(self.company_res[i], self.cno_res[i])[-1]
             temp_label1 = Label(self, text='公司:' + str(self.company_res[i]))
@@ -108,12 +108,12 @@ class View(tk.Tk):
             temp_label4.place(x=00, y=100 + base_line * i, anchor='nw')
 
     def refresh_data(self):
-        print('refresh_data')
+        # print('refresh_data')
         self.change_root()
         self.after(2000 * 60, self.refresh_data)
 
     def refresh_time(self):
-        print('refrash time')
+        # print('refrash time')
         nub = int(self.tm_cur.get())
         tm_label = Label(self, text='刷新倒计时：')
         tm_label.place(x=150, y=150 + 100 * len(self.company_res), anchor='nw')
