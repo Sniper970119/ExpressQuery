@@ -33,12 +33,15 @@ class View(tk.Tk):
         self.kuaidi_list = ['顺丰', '中通', '申通', '韵达', '圆通']
         self.company_res = []
         self.cno_res = []
+        self.time_list = []
+        self.loc_list = []
         # self.overrideredirect(True)
         self.attributes("-alpha", 0.5)  # 窗口透明度60 %
         self.geometry("300x200+-300+50")
         self.wm_attributes('-topmost', 1)
         self.tm_cur = tk.StringVar()
         self.tm_cur.set('120')
+        self.first = True
 
         def click_btn1():
             # root.geometry("500x500+000+50")
@@ -80,7 +83,7 @@ class View(tk.Tk):
                     length = len(self.company_res) * 150 + 100
                     self.geometry("300x" + str(length) + "+-300+50")
                     self.refresh_data()
-                    self.refresh_time()
+                    # self.refresh_time()
                     sub.destroy()
 
                 btn2 = tkinter.Button(sub, text='确定', command=click_btn2)
@@ -96,16 +99,27 @@ class View(tk.Tk):
     def change_root(self):
         base_line = 100
         # print(len(self.company_res))
+
         for i in range(len(self.company_res)):
             res = get_data(self.company_res[i], self.cno_res[i])[-1]
             temp_label1 = Label(self, text='公司:' + str(self.company_res[i]))
             temp_label1.place(x=0, y=60 + base_line * i, anchor='nw')
             temp_label2 = Label(self, text='单号:' + str(self.cno_res[i]))
             temp_label2.place(x=100, y=60 + base_line * i, anchor='nw')
-            temp_label3 = Label(self, text='更新时间:' + str(res[0]))
-            temp_label3.place(x=00, y=80 + base_line * i, anchor='nw')
-            temp_label4 = Label(self, text='最新动态:' + str(res[1]))
-            temp_label4.place(x=00, y=100 + base_line * i, anchor='nw')
+            self.time_list.append(StringVar())
+            self.time_list[i].set('更新时间:' + str(res[0]))
+            self.loc_list.append(StringVar())
+            self.loc_list[i].set('最新动态:' + str(res[1]))
+            if self.first:
+                temp_label3 = Label(self, textvariable=self.time_list[i])
+                temp_label3.place(x=00, y=80 + base_line * i, anchor='nw')
+                temp_label4 = Label(self, textvariable=self.loc_list[i])
+                temp_label4.place(x=00, y=100 + base_line * i, anchor='nw')
+            # self.time_list.append(StringVar())
+            # temp_label3 = Label(self, text='更新时间:' + str(res[0]))
+            # self.time_list[i].place(x=00, y=80 + base_line * i, anchor='nw')
+            # temp_label4 = Label(self, textvariable='最新动态:' + str(res[1]))
+            # temp_label4.place(x=00, y=100 + base_line * i, anchor='nw')
 
     def refresh_data(self):
         # print('refresh_data')
